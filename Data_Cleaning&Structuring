@@ -1,0 +1,137 @@
+Create warehouse Weather_forcasting;
+use warehouse Weather_forcasting;
+create database Weather_forcast;
+use database Weather_forcast;
+
+CREATE TABLE WEATHER(  Date	VARCHAR,
+   temperature	VARCHAR,
+   Average_humidity_percent VARCHAR,	
+   Average_dewpoint_Faren VARCHAR,
+   Average_barometer_in VARCHAR,
+   Average_windspeed_mph VARCHAR,
+   Average_gustspeed_mph VARCHAR,
+   Average_direction_deg VARCHAR,
+   Rainfall_for_month_in VARCHAR,
+   Rainfall_for_year_in VARCHAR,
+   Maximum_rain_per_minute VARCHAR,
+   Maximum_temperature_Faren VARCHAR,
+   Minimum_temperature_Faren VARCHAR,
+  Maximum_humidity_percent VARCHAR,
+  Minimum_humidity_percent VARCHAR,
+  Maximum_pressure VARCHAR,
+  Minimum_pressure VARCHAR,
+  Maximum_windspeed_mph VARCHAR,
+   Maximum_gust_speed_mph VARCHAR,
+   Maximum_heat_index_Faren VARCHAR,
+ Date1 VARCHAR,
+   Month VARCHAR,
+   diff_pressure VARCHAR )
+   
+-- The data has been loaded to table through CSV file.
+
+select * from weather;
+
+
+SELECT DATE1 FROM WEATHER WHERE DATE != DATE1;
+--There was duplicate date column which needs to be dropped. 
+ALTER TABLE WEATHER DROP COLUMN DATE1;
+
+
+--All the values contain apostrophies which needs to be removed.
+
+UPDATE WEATHER SET TEMPERATURE = REPLACE(TEMPERATURE,  '\'' ,'');
+select * from weather;
+
+UPDATE WEATHER SET DATE = REPLACE(DATE,  '\'' ,'');
+UPDATE WEATHER SET AVERAGE_HUMIDITY_PERCENT = REPLACE(AVERAGE_HUMIDITY_PERCENT,  '\'' ,'');
+UPDATE WEATHER SET AVERAGE_DEWPOINT_FAREN = REPLACE(AVERAGE_DEWPOINT_FAREN,  '\'' ,'');
+UPDATE WEATHER SET AVERAGE_BAROMETER_IN = REPLACE(AVERAGE_BAROMETER_IN,  '\'' ,'');
+UPDATE WEATHER SET AVERAGE_WINDSPEED_MPH = REPLACE(AVERAGE_WINDSPEED_MPH,  '\'' ,'');
+UPDATE WEATHER SET AVERAGE_GUSTSPEED_MPH = REPLACE(AVERAGE_GUSTSPEED_MPH,  '\'' ,'');
+UPDATE WEATHER SET AVERAGE_DIRECTION_DEG = REPLACE(AVERAGE_DIRECTION_DEG,  '\'' ,'');
+UPDATE WEATHER SET RAINFALL_FOR_MONTH_IN = REPLACE(RAINFALL_FOR_MONTH_IN,  '\'' ,'');
+UPDATE WEATHER SET RAINFALL_FOR_YEAR_IN = REPLACE(RAINFALL_FOR_YEAR_IN,  '\'' ,'');
+UPDATE WEATHER SET MAXIMUM_RAIN_PER_MINUTE = REPLACE(MAXIMUM_RAIN_PER_MINUTE,  '\'' ,'');
+UPDATE WEATHER SET MAXIMUM_TEMPERATURE_FAREN = REPLACE(MAXIMUM_TEMPERATURE_FAREN,  '\'' ,'');
+UPDATE WEATHER SET MAXIMUM_HUMIDITY_PERCENT = REPLACE(MAXIMUM_HUMIDITY_PERCENT,  '\'' ,'');
+UPDATE WEATHER SET MINIMUM_HUMIDITY_PERCENT = REPLACE(MINIMUM_HUMIDITY_PERCENT,  '\'' ,'');
+UPDATE WEATHER SET MAXIMUM_PRESSURE = REPLACE(MAXIMUM_PRESSURE,  '\'' ,'');
+UPDATE WEATHER SET MINIMUM_PRESSURE = REPLACE(MINIMUM_PRESSURE,  '\'' ,'');
+UPDATE WEATHER SET MAXIMUM_WINDSPEED_MPH = REPLACE(MAXIMUM_WINDSPEED_MPH,  '\'' ,'');
+UPDATE WEATHER SET MAXIMUM_GUST_SPEED_MPH = REPLACE(MAXIMUM_GUST_SPEED_MPH,  '\'' ,'');
+UPDATE WEATHER SET MAXIMUM_HEAT_INDEX_FAREN = REPLACE(MAXIMUM_HEAT_INDEX_FAREN,  '\'' ,'');
+UPDATE WEATHER SET DATE1 = REPLACE(DATE1,  '\'' ,'');
+UPDATE WEATHER SET MONTH = REPLACE(MONTH,  '\'' ,'');
+UPDATE WEATHER SET DIFF_PRESSURE = REPLACE(DIFF_PRESSURE,  '\'' ,'');
+Update WEATHER SET Minimum_temperature_Faren= REPLACE(Minimum_temperature_Faren,'\'','');
+SELECT * FROM WEATHER;
+
+
+
+-
+--converting varchar to date.
+SELECT to_date(DATE, 'YYYY-MM-DD') FROM WEATHER;
+--THERE IS NO 29TH IN FEB 2022 WE ARE DELETING THE ROWS WITH '2022-02-29'.
+DELETE FROM WEATHER WHERE DATE= '2022-02-29'
+ALTER TABLE WEATHER ADD COLUMN W_DATE DATE;
+UPDATE WEATHER SET W_DATE=  to_date(DATE, 'YYYY-MM-DD');
+ALTER TABLE WEATHER DROP DATE;
+SELECT * FROM WEATHER;
+
+
+-- All the columns needs to be converted to required datatype from varchar.
+SELECT CAST(TEMPERATURE AS DOUBLE) FROM WEATHER;
+
+CREATE OR REPLACE TABLE WEATHER_FORCAST as (Select W_DATE, CAST(TEMPERATURE AS DOUBLE) as TEMPERATURE , 
+   CAST(Average_humidity_percent AS DOUBLE) AS Average_humidity_percent ,	
+   CAST(Average_dewpoint_Faren AS DOUBLE) AS Average_dewpoint_Faren ,
+   CAST(Average_barometer_in AS DOUBLE) AS Average_barometer_in ,
+   CAST(Average_windspeed_mph AS DOUBLE) AS Average_windspeed_mph ,
+   CAST(Average_gustspeed_mph AS DOUBLE) AS Average_gustspeed_mph ,
+   CAST(Average_direction_deg AS DOUBLE) AS Average_direction_deg ,
+   CAST(Rainfall_for_month_in AS DOUBLE) AS Rainfall_for_month_in ,
+   CAST(Rainfall_for_year_in AS DOUBLE) AS Rainfall_for_year_in ,
+   CAST(Maximum_rain_per_minute AS DOUBLE) AS Maximum_rain_per_minute ,
+   CAST(Maximum_temperature_Faren AS DOUBLE) AS Maximum_temperature_Faren ,
+   CAST(Minimum_temperature_Faren AS DOUBLE) AS Minimum_temperature_Faren  ,
+   CAST(Maximum_humidity_percent AS DOUBLE) AS Maximum_humidity_percent ,
+   CAST(Minimum_humidity_percent AS DOUBLE) AS Minimum_humidity_percent ,
+   CAST(Maximum_pressure AS DOUBLE) AS Maximum_pressure ,
+   CAST(Minimum_pressure AS DOUBLE) AS Minimum_pressure ,
+  CAST(Maximum_windspeed_mph AS DOUBLE) AS Maximum_windspeed_mph ,
+   CAST(Maximum_gust_speed_mph AS DOUBLE) AS Maximum_gust_speed_mph ,
+   CAST(Maximum_heat_index_Faren AS DOUBLE) AS Maximum_heat_index_Faren,
+   CAST(Month AS INT) AS Month ,
+   CAST(diff_pressure AS DOUBLE) AS diff_pressure
+    FROM WEATHER)
+
+
+SELECT * FROM WEATHER_FORCAST;
+
+
+
+SELECT  CAST(Minimum_temperature_Faren AS DOUBLE) AS Minimum_temperature_Faren FROM WEATHER
+
+CREATE TABLE W as (select CAST(TEMPERATURE AS DOUBLE) as Temp FROM WEATHER);
+SELECT diff_pressure FROM WEATHER WHERE diff_pressure= '0.11700000000000088;'
+
+-- There are few special characters(;) in the values which need to be removed
+UPDATE WEATHER SET diff_pressure= REPLACE(diff_pressure, ';','')
+
+SELECT * FROM WEATHER_FORCAST;
+
+-- THE DATASET HAS BEEN CONVERTED INTO REQUIRED DATATYPES.
+
+SELECT COUNT(W_DATE) FROM WEATHER_FORCAST;
+
+
+
+
+
+
+
+
+
+
+
+

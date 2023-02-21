@@ -1,6 +1,7 @@
 The Cleaning has been done in SQL-- Snowflake. The rest of the work is done using python. Please refer python file for next process
 
-"WEATHER_FORCAST"."PUBLIC"."WEATHER_FORCAST""WEATHER_FORCAST"."PUBLIC"."WEATHER_FORCAST""WEATHER_FORCAST"."PUBLIC"."WEATHER_FORCAST""WEATHER_FORCAST"."PUBLIC"."WEATHER_FORCAST""WEATHER_FORCAST"."PUBLIC"."WEATHER_FORCAST"Create warehouse Weather_forcasting;
+
+Create warehouse Weather_forcasting;
 use warehouse Weather_forcasting;
 create database Weather_forcast;
 use database Weather_forcast;
